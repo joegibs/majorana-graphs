@@ -98,13 +98,13 @@ print(nx.algorithms.approximation.large_clique_size(G))
 print(clique_counter(G,3))
 
 #%%
-pos = nx.circular_layout(G)
-fig, ax = plt.subplots(figsize=(16, 16))
-node_opts = {"node_size": 500, "node_color": "w", "edgecolors": "k", "linewidths": 2.0}
-nx.draw_networkx_nodes(G, pos, **node_opts)
-nx.draw_networkx_labels(G, pos, font_size=10)
-nx.draw_networkx_edges(G, pos, width=0.2)
-plt.show()
+# pos = nx.circular_layout(G)
+# fig, ax = plt.subplots(figsize=(16, 16))
+# node_opts = {"node_size": 500, "node_color": "w", "edgecolors": "k", "linewidths": 2.0}
+# nx.draw_networkx_nodes(G, pos, **node_opts)
+# nx.draw_networkx_labels(G, pos, font_size=10)
+# nx.draw_networkx_edges(G, pos, width=0.2)
+# plt.show()
 
 #%%
 def gen_paulis(lis):
@@ -143,59 +143,22 @@ def find_pauli(lis):
         else:
             st=st+'X'
     return st
-    
-#for i in itertools.combinations(cliques[0],2):
-#    chk = copy.copy(cliques[0])
-#    for j in i: chk.remove(j)
-#    print(i,find_pauli(multiply_lis(gen_paulis(chk))))
-    
-##%%sub cliques
-#basis_sets=[]
-#count=0
-#for i in cliques:
-##pick 2
-#    for j in itertools.combinations(i,2):
-#        count+=1
-#        chk = copy.copy(i)
-#        for k in j: chk.remove(k)
-#        se=set(j)
-#        se.add(find_pauli(multiply_lis(gen_paulis(chk))))
-        
-#        # if not any([se.issubset(b) for b in basis_sets]):
-#        basis_sets.append(se)
-##multiply the rest
-#        #gen_paulis
-#        #multiply
-#        #find pauli return to 'x''y'z' etc
+# #%%
+# clique = next(nx.find_cliques(G))
+
+# for i in itertools.combinations(clique, 2):
+#     G[i[0]][i[1]]["color"] = "tab:red"
+#     G[i[0]][i[1]]["width"] = 2.5
+
+# pos = nx.circular_layout(G)
+# fig, ax = plt.subplots(figsize=(16, 16))
+# node_opts = {"node_size": 500, "node_color": "w", "edgecolors": "k", "linewidths": 2.0}
+# nx.draw_networkx_nodes(G, pos, **node_opts)
+# nx.draw_networkx_labels(G, pos, font_size=10)
+# # nx.draw_networkx_edges(G, pos, width=.01)
 
 
-
-##%% count max identity
-#max_xs=nx.algorithms.approximation.large_clique_size(G)
-#for b in nx.find_cliques(G):
-#    if len(b) == 3:
-#        count = 0;
-#        for i in b:
-#            if ({'I'}.issubset(set(i)) and len(set(i))==2):
-#                count+=1
-#        if count == 3:
-#            print(b)
-#%%
-clique = next(nx.find_cliques(G))
-
-for i in itertools.combinations(clique, 2):
-    G[i[0]][i[1]]["color"] = "tab:red"
-    G[i[0]][i[1]]["width"] = 2.5
-
-pos = nx.circular_layout(G)
-fig, ax = plt.subplots(figsize=(16, 16))
-node_opts = {"node_size": 500, "node_color": "w", "edgecolors": "k", "linewidths": 2.0}
-nx.draw_networkx_nodes(G, pos, **node_opts)
-nx.draw_networkx_labels(G, pos, font_size=10)
-# nx.draw_networkx_edges(G, pos, width=.01)
-
-
-edge_colors = [edgedata["color"] for _, _, edgedata in G.edges(data=True)]
-edge_width = [edgedata["width"] for _, _, edgedata in G.edges(data=True)]
-nx.draw_networkx_edges(G, pos, width=edge_width, edge_color=edge_colors)
-plt.show()
+# edge_colors = [edgedata["color"] for _, _, edgedata in G.edges(data=True)]
+# edge_width = [edgedata["width"] for _, _, edgedata in G.edges(data=True)]
+# nx.draw_networkx_edges(G, pos, width=edge_width, edge_color=edge_colors)
+# plt.show()

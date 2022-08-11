@@ -247,13 +247,13 @@
 <span class="nb">print</span><span class="p">(</span><span class="n">clique_counter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 
 <span class="c1">#%%</span>
-<span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">circular_layout</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
-<span class="n">node_opts</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;node_size&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;node_color&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;edgecolors&quot;</span><span class="p">:</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;linewidths&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">}</span>
-<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="o">**</span><span class="n">node_opts</span><span class="p">)</span>
-<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># pos = nx.circular_layout(G)</span>
+<span class="c1"># fig, ax = plt.subplots(figsize=(16, 16))</span>
+<span class="c1"># node_opts = {&quot;node_size&quot;: 500, &quot;node_color&quot;: &quot;w&quot;, &quot;edgecolors&quot;: &quot;k&quot;, &quot;linewidths&quot;: 2.0}</span>
+<span class="c1"># nx.draw_networkx_nodes(G, pos, **node_opts)</span>
+<span class="c1"># nx.draw_networkx_labels(G, pos, font_size=10)</span>
+<span class="c1"># nx.draw_networkx_edges(G, pos, width=0.2)</span>
+<span class="c1"># plt.show()</span>
 
 <span class="c1">#%%</span>
 <div class="viewcode-block" id="gen_paulis"><a class="viewcode-back" href="../count_and_plot.html#count_and_plot.gen_paulis">[docs]</a><span class="k">def</span> <span class="nf">gen_paulis</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
@@ -292,62 +292,25 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">st</span><span class="o">=</span><span class="n">st</span><span class="o">+</span><span class="s1">&#39;X&#39;</span>
     <span class="k">return</span> <span class="n">st</span></div>
-    
-<span class="c1">#for i in itertools.combinations(cliques[0],2):</span>
-<span class="c1">#    chk = copy.copy(cliques[0])</span>
-<span class="c1">#    for j in i: chk.remove(j)</span>
-<span class="c1">#    print(i,find_pauli(multiply_lis(gen_paulis(chk))))</span>
-    
-<span class="c1">##%%sub cliques</span>
-<span class="c1">#basis_sets=[]</span>
-<span class="c1">#count=0</span>
-<span class="c1">#for i in cliques:</span>
-<span class="c1">##pick 2</span>
-<span class="c1">#    for j in itertools.combinations(i,2):</span>
-<span class="c1">#        count+=1</span>
-<span class="c1">#        chk = copy.copy(i)</span>
-<span class="c1">#        for k in j: chk.remove(k)</span>
-<span class="c1">#        se=set(j)</span>
-<span class="c1">#        se.add(find_pauli(multiply_lis(gen_paulis(chk))))</span>
-        
-<span class="c1">#        # if not any([se.issubset(b) for b in basis_sets]):</span>
-<span class="c1">#        basis_sets.append(se)</span>
-<span class="c1">##multiply the rest</span>
-<span class="c1">#        #gen_paulis</span>
-<span class="c1">#        #multiply</span>
-<span class="c1">#        #find pauli return to &#39;x&#39;&#39;y&#39;z&#39; etc</span>
+<span class="c1"># #%%</span>
+<span class="c1"># clique = next(nx.find_cliques(G))</span>
+
+<span class="c1"># for i in itertools.combinations(clique, 2):</span>
+<span class="c1">#     G[i[0]][i[1]][&quot;color&quot;] = &quot;tab:red&quot;</span>
+<span class="c1">#     G[i[0]][i[1]][&quot;width&quot;] = 2.5</span>
+
+<span class="c1"># pos = nx.circular_layout(G)</span>
+<span class="c1"># fig, ax = plt.subplots(figsize=(16, 16))</span>
+<span class="c1"># node_opts = {&quot;node_size&quot;: 500, &quot;node_color&quot;: &quot;w&quot;, &quot;edgecolors&quot;: &quot;k&quot;, &quot;linewidths&quot;: 2.0}</span>
+<span class="c1"># nx.draw_networkx_nodes(G, pos, **node_opts)</span>
+<span class="c1"># nx.draw_networkx_labels(G, pos, font_size=10)</span>
+<span class="c1"># # nx.draw_networkx_edges(G, pos, width=.01)</span>
 
 
-
-<span class="c1">##%% count max identity</span>
-<span class="c1">#max_xs=nx.algorithms.approximation.large_clique_size(G)</span>
-<span class="c1">#for b in nx.find_cliques(G):</span>
-<span class="c1">#    if len(b) == 3:</span>
-<span class="c1">#        count = 0;</span>
-<span class="c1">#        for i in b:</span>
-<span class="c1">#            if ({&#39;I&#39;}.issubset(set(i)) and len(set(i))==2):</span>
-<span class="c1">#                count+=1</span>
-<span class="c1">#        if count == 3:</span>
-<span class="c1">#            print(b)</span>
-<span class="c1">#%%</span>
-<span class="n">clique</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">find_cliques</span><span class="p">(</span><span class="n">G</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">clique</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-    <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;tab:red&quot;</span>
-    <span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.5</span>
-
-<span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">circular_layout</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
-<span class="n">node_opts</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;node_size&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;node_color&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;edgecolors&quot;</span><span class="p">:</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;linewidths&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">}</span>
-<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="o">**</span><span class="n">node_opts</span><span class="p">)</span>
-<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="c1"># nx.draw_networkx_edges(G, pos, width=.01)</span>
-
-
-<span class="n">edge_colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">edgedata</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">edgedata</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
-<span class="n">edge_width</span> <span class="o">=</span> <span class="p">[</span><span class="n">edgedata</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">edgedata</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
-<span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">edge_width</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="n">edge_colors</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># edge_colors = [edgedata[&quot;color&quot;] for _, _, edgedata in G.edges(data=True)]</span>
+<span class="c1"># edge_width = [edgedata[&quot;width&quot;] for _, _, edgedata in G.edges(data=True)]</span>
+<span class="c1"># nx.draw_networkx_edges(G, pos, width=edge_width, edge_color=edge_colors)</span>
+<span class="c1"># plt.show()</span>
 </pre></div>
 
            </div>
