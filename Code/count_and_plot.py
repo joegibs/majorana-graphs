@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
+
 """
-Created on Thu Aug  4 10:44:42 2022
+Functions used to generate and count all possible cliques of anticommuting pauli strings
 
 @author: jogib
 """
@@ -28,7 +28,19 @@ names = ["".join(x for x in i) for i in combos]
 #%%
 
 
-def anticommute_check(A, B):
+def anticommute_check(A: str, B: str):
+    """
+    Checks if two strings anti commute
+    
+    Parameters
+    ----------
+    A : str
+    B : str
+    Returns
+    -------
+    bool
+
+    """
     ch_arr = []
     for i in range(len(A)):
         a_t = pauli[A[i]]
@@ -53,36 +65,46 @@ def gen_graph(n=2):
             G.add_edge(i[0], i[1], **{"color": "tab:blue", "width": 0.2})
     return G
 
+def clique_counter(G,clique_size: int):
+    """
+    
 
-##%%
-#n = 4
-#G = gen_graph(n)
-#G.remove_node("".join("I" for i in range(n)))
-#print(nx.algorithms.approximation.large_clique_size(G))
+    Parameters
+    ----------
+    G : networkx graph
+    clique_size : int
+        size of clique we are counting
 
-##%%
-#pos = nx.circular_layout(G)
-#fig, ax = plt.subplots(figsize=(16, 16))
-#node_opts = {"node_size": 500, "node_color": "w", "edgecolors": "k", "linewidths": 2.0}
-#nx.draw_networkx_nodes(G, pos, **node_opts)
-#nx.draw_networkx_labels(G, pos, font_size=10)
-#nx.draw_networkx_edges(G, pos, width=0.2)
-#plt.show()
+    Returns
+    -------
+    size : TYPE
+        DESCRIPTION.
 
-##%% cliques need to fix
-#cliques=[]
-#num_cliq = 0
-#check=0
+    """
+    size = 0
+    check=0
 
-#max_xs=nx.algorithms.approximation.large_clique_size(G)
-#for i in nx.find_cliques(G):
-#    if len(i) == 9:#max_xs:
-#        cliques.append(set(i))
+    if nx.algorithms.approximation.large_clique_size(G)<clique_size:
+        return 0
+    for i in nx.find_cliques(G):
+        if len(i) == clique_size:
+            size = size +1
+    return size
+#%%
+n = 2
+G = gen_graph(n)
+G.remove_node("".join("I" for i in range(n)))
+print(nx.algorithms.approximation.large_clique_size(G))
+print(clique_counter(G,3))
 
-# for i in nx.find_cliques(G):
-#     if not any([set(i).issubset(b) for b in cliques]):
-#         if len(i) == 3:
-#             num_cliq = num_cliq +1
+#%%
+pos = nx.circular_layout(G)
+fig, ax = plt.subplots(figsize=(16, 16))
+node_opts = {"node_size": 500, "node_color": "w", "edgecolors": "k", "linewidths": 2.0}
+nx.draw_networkx_nodes(G, pos, **node_opts)
+nx.draw_networkx_labels(G, pos, font_size=10)
+nx.draw_networkx_edges(G, pos, width=0.2)
+plt.show()
 
 #%%
 def gen_paulis(lis):
@@ -158,22 +180,22 @@ def find_pauli(lis):
 #                count+=1
 #        if count == 3:
 #            print(b)
-##%%
-#clique = next(nx.find_cliques(G))
+#%%
+clique = next(nx.find_cliques(G))
 
-#for i in itertools.combinations(clique, 2):
-#    G[i[0]][i[1]]["color"] = "tab:red"
-#    G[i[0]][i[1]]["width"] = 2.5
+for i in itertools.combinations(clique, 2):
+    G[i[0]][i[1]]["color"] = "tab:red"
+    G[i[0]][i[1]]["width"] = 2.5
 
-#pos = nx.spiral_layout(G)
-#fig, ax = plt.subplots(figsize=(16, 16))
-#node_opts = {"node_size": 500, "node_color": "w", "edgecolors": "k", "linewidths": 2.0}
-#nx.draw_networkx_nodes(G, pos, **node_opts)
-#nx.draw_networkx_labels(G, pos, font_size=10)
-## nx.draw_networkx_edges(G, pos, width=.01)
+pos = nx.circular_layout(G)
+fig, ax = plt.subplots(figsize=(16, 16))
+node_opts = {"node_size": 500, "node_color": "w", "edgecolors": "k", "linewidths": 2.0}
+nx.draw_networkx_nodes(G, pos, **node_opts)
+nx.draw_networkx_labels(G, pos, font_size=10)
+# nx.draw_networkx_edges(G, pos, width=.01)
 
 
-#edge_colors = [edgedata["color"] for _, _, edgedata in G.edges(data=True)]
-#edge_width = [edgedata["width"] for _, _, edgedata in G.edges(data=True)]
-#nx.draw_networkx_edges(G, pos, width=edge_width, edge_color=edge_colors)
-#plt.show()
+edge_colors = [edgedata["color"] for _, _, edgedata in G.edges(data=True)]
+edge_width = [edgedata["width"] for _, _, edgedata in G.edges(data=True)]
+nx.draw_networkx_edges(G, pos, width=edge_width, edge_color=edge_colors)
+plt.show()

@@ -152,12 +152,43 @@
             
   <section id="module-count_and_plot">
 <span id="count-and-plot-module"></span><h1>count_and_plot module<a class="headerlink" href="#module-count_and_plot" title="Permalink to this heading">¶</a></h1>
-<p>Created on Thu Aug  4 10:44:42 2022</p>
+<p>Functions used to generate and count all possible cliques of anticommuting pauli strings</p>
 <p>&#64;author: jogib</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="count_and_plot.anticommute_check">
-<span class="sig-prename descclassname"><span class="pre">count_and_plot.</span></span><span class="sig-name descname"><span class="pre">anticommute_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/count_and_plot.html#anticommute_check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#count_and_plot.anticommute_check" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">count_and_plot.</span></span><span class="sig-name descname"><span class="pre">anticommute_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/count_and_plot.html#anticommute_check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#count_and_plot.anticommute_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if two strings anti commute</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>str</em>) -- </p></li>
+<li><p><strong>B</strong> (<em>str</em>) -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="count_and_plot.clique_counter">
+<span class="sig-prename descclassname"><span class="pre">count_and_plot.</span></span><span class="sig-name descname"><span class="pre">clique_counter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clique_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/count_and_plot.html#clique_counter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#count_and_plot.clique_counter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>G</strong> (<em>networkx graph</em>) -- </p></li>
+<li><p><strong>clique_size</strong> (<em>int</em>) -- size of clique we are counting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>size</strong> -- DESCRIPTION.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>TYPE</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="count_and_plot.find_pauli">
