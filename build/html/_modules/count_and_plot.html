@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="python" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="python" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>count_and_plot &mdash; Majorana Graphs 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Majorana Graphs
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Majorana Graphs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>count_and_plot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for count_and_plot</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Thu Aug  4 10:44:42 2022</span>
+
+<span class="sd">@author: jogib</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+
+<span class="c1">#%%</span>
+<span class="n">pauli</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">(</span><span class="s2">&quot;1+0j,0;0,1&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;Z&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">(</span><span class="s2">&quot;1+0j,0;0,-1&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">(</span><span class="s2">&quot;0+0j,1;1,0&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">(</span><span class="s2">&quot;0,-1j;1j,0&quot;</span><span class="p">)),</span>
+<span class="p">}</span>
+<span class="c1">#%%</span>
+<span class="c1"># init all the tensors</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">lis</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="s2">&quot;I&quot;</span><span class="p">]</span>
+<span class="n">combos</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">combos</span><span class="p">]</span>
+<span class="c1">#%%</span>
+
+
+<div class="viewcode-block" id="anticommute_check"><a class="viewcode-back" href="../count_and_plot.html#count_and_plot.anticommute_check">[docs]</a><span class="k">def</span> <span class="nf">anticommute_check</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="n">ch_arr</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)):</span>
+        <span class="n">a_t</span> <span class="o">=</span> <span class="n">pauli</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">b_t</span> <span class="o">=</span> <span class="n">pauli</span><span class="p">[</span><span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">check</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a_t</span><span class="p">,</span> <span class="n">b_t</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b_t</span><span class="p">,</span> <span class="n">a_t</span><span class="p">)</span>
+        <span class="n">ch_arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">check</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">ch_arr</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="gen_graph"><a class="viewcode-back" href="../count_and_plot.html#count_and_plot.gen_graph">[docs]</a><span class="k">def</span> <span class="nf">gen_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">lis</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="s2">&quot;I&quot;</span><span class="p">]</span>
+    <span class="n">combos</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">lis</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">combos</span><span class="p">)}</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">empty_graph</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">relabel_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="c1"># add edges</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="mi">2</span><span class="p">):</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">anticommute_check</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">G</span></div>
+
+
+<span class="c1">##%%</span>
+<span class="c1">#n = 4</span>
+<span class="c1">#G = gen_graph(n)</span>
+<span class="c1">#G.remove_node(&quot;&quot;.join(&quot;I&quot; for i in range(n)))</span>
+<span class="c1">#print(nx.algorithms.approximation.large_clique_size(G))</span>
+
+<span class="c1">##%%</span>
+<span class="c1">#pos = nx.circular_layout(G)</span>
+<span class="c1">#fig, ax = plt.subplots(figsize=(16, 16))</span>
+<span class="c1">#node_opts = {&quot;node_size&quot;: 500, &quot;node_color&quot;: &quot;w&quot;, &quot;edgecolors&quot;: &quot;k&quot;, &quot;linewidths&quot;: 2.0}</span>
+<span class="c1">#nx.draw_networkx_nodes(G, pos, **node_opts)</span>
+<span class="c1">#nx.draw_networkx_labels(G, pos, font_size=10)</span>
+<span class="c1">#nx.draw_networkx_edges(G, pos, width=0.2)</span>
+<span class="c1">#plt.show()</span>
+
+<span class="c1">##%% cliques need to fix</span>
+<span class="c1">#cliques=[]</span>
+<span class="c1">#num_cliq = 0</span>
+<span class="c1">#check=0</span>
+
+<span class="c1">#max_xs=nx.algorithms.approximation.large_clique_size(G)</span>
+<span class="c1">#for i in nx.find_cliques(G):</span>
+<span class="c1">#    if len(i) == 9:#max_xs:</span>
+<span class="c1">#        cliques.append(set(i))</span>
+
+<span class="c1"># for i in nx.find_cliques(G):</span>
+<span class="c1">#     if not any([set(i).issubset(b) for b in cliques]):</span>
+<span class="c1">#         if len(i) == 3:</span>
+<span class="c1">#             num_cliq = num_cliq +1</span>
+
+<span class="c1">#%%</span>
+<div class="viewcode-block" id="gen_paulis"><a class="viewcode-back" href="../count_and_plot.html#count_and_plot.gen_paulis">[docs]</a><span class="k">def</span> <span class="nf">gen_paulis</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lis : list</span>
+<span class="sd">        list of the form [&#39;xyz&#39;,&#39;xxi&#39;...] so that each the first char in</span>
+<span class="sd">        each element of the list is pauli corresponding to the char.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    paul_lis : lis</span>
+<span class="sd">        [[pauli(x),pauli(y) pauli(z)],].</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pl</span><span class="o">=</span><span class="p">[[</span><span class="n">pauli</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">lis</span><span class="p">)]</span>
+    <span class="n">pauli_lis</span> <span class="o">=</span> <span class="p">[[</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">pl</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">lis</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))]</span>
+    <span class="k">return</span> <span class="n">pauli_lis</span></div>
+
+<div class="viewcode-block" id="multiply_lis"><a class="viewcode-back" href="../count_and_plot.html#count_and_plot.multiply_lis">[docs]</a><span class="k">def</span> <span class="nf">multiply_lis</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
+    <span class="n">asd</span> <span class="o">=</span> <span class="p">[</span><span class="n">functools</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">asd</span></div>
+
+<div class="viewcode-block" id="find_pauli"><a class="viewcode-back" href="../count_and_plot.html#count_and_plot.find_pauli">[docs]</a><span class="k">def</span> <span class="nf">find_pauli</span><span class="p">(</span><span class="n">lis</span><span class="p">):</span>
+    
+    <span class="n">st</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lis</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">st</span><span class="o">=</span><span class="n">st</span><span class="o">+</span><span class="s1">&#39;Z&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">st</span><span class="o">=</span><span class="n">st</span><span class="o">+</span><span class="s1">&#39;I&#39;</span>
+        <span class="k">elif</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">=</span><span class="n">st</span><span class="o">+</span><span class="s1">&#39;Y&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">st</span><span class="o">=</span><span class="n">st</span><span class="o">+</span><span class="s1">&#39;X&#39;</span>
+    <span class="k">return</span> <span class="n">st</span></div>
+    
+<span class="c1">#for i in itertools.combinations(cliques[0],2):</span>
+<span class="c1">#    chk = copy.copy(cliques[0])</span>
+<span class="c1">#    for j in i: chk.remove(j)</span>
+<span class="c1">#    print(i,find_pauli(multiply_lis(gen_paulis(chk))))</span>
+    
+<span class="c1">##%%sub cliques</span>
+<span class="c1">#basis_sets=[]</span>
+<span class="c1">#count=0</span>
+<span class="c1">#for i in cliques:</span>
+<span class="c1">##pick 2</span>
+<span class="c1">#    for j in itertools.combinations(i,2):</span>
+<span class="c1">#        count+=1</span>
+<span class="c1">#        chk = copy.copy(i)</span>
+<span class="c1">#        for k in j: chk.remove(k)</span>
+<span class="c1">#        se=set(j)</span>
+<span class="c1">#        se.add(find_pauli(multiply_lis(gen_paulis(chk))))</span>
+        
+<span class="c1">#        # if not any([se.issubset(b) for b in basis_sets]):</span>
+<span class="c1">#        basis_sets.append(se)</span>
+<span class="c1">##multiply the rest</span>
+<span class="c1">#        #gen_paulis</span>
+<span class="c1">#        #multiply</span>
+<span class="c1">#        #find pauli return to &#39;x&#39;&#39;y&#39;z&#39; etc</span>
+
+
+
+<span class="c1">##%% count max identity</span>
+<span class="c1">#max_xs=nx.algorithms.approximation.large_clique_size(G)</span>
+<span class="c1">#for b in nx.find_cliques(G):</span>
+<span class="c1">#    if len(b) == 3:</span>
+<span class="c1">#        count = 0;</span>
+<span class="c1">#        for i in b:</span>
+<span class="c1">#            if ({&#39;I&#39;}.issubset(set(i)) and len(set(i))==2):</span>
+<span class="c1">#                count+=1</span>
+<span class="c1">#        if count == 3:</span>
+<span class="c1">#            print(b)</span>
+<span class="c1">##%%</span>
+<span class="c1">#clique = next(nx.find_cliques(G))</span>
+
+<span class="c1">#for i in itertools.combinations(clique, 2):</span>
+<span class="c1">#    G[i[0]][i[1]][&quot;color&quot;] = &quot;tab:red&quot;</span>
+<span class="c1">#    G[i[0]][i[1]][&quot;width&quot;] = 2.5</span>
+
+<span class="c1">#pos = nx.spiral_layout(G)</span>
+<span class="c1">#fig, ax = plt.subplots(figsize=(16, 16))</span>
+<span class="c1">#node_opts = {&quot;node_size&quot;: 500, &quot;node_color&quot;: &quot;w&quot;, &quot;edgecolors&quot;: &quot;k&quot;, &quot;linewidths&quot;: 2.0}</span>
+<span class="c1">#nx.draw_networkx_nodes(G, pos, **node_opts)</span>
+<span class="c1">#nx.draw_networkx_labels(G, pos, font_size=10)</span>
+<span class="c1">## nx.draw_networkx_edges(G, pos, width=.01)</span>
+
+
+<span class="c1">#edge_colors = [edgedata[&quot;color&quot;] for _, _, edgedata in G.edges(data=True)]</span>
+<span class="c1">#edge_width = [edgedata[&quot;width&quot;] for _, _, edgedata in G.edges(data=True)]</span>
+<span class="c1">#nx.draw_networkx_edges(G, pos, width=edge_width, edge_color=edge_colors)</span>
+<span class="c1">#plt.show()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, Joseph Gibson, Brent Harrison
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
