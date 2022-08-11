@@ -10,6 +10,8 @@ Welcome to Majorana Graphs's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   modules
+
 
 
 Indices and tables
