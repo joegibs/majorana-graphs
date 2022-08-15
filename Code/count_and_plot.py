@@ -91,7 +91,7 @@ def clique_counter(G,clique_size: int):
             size = size +1
     return size
 #%%
-n = 2
+n = 3
 G = gen_graph(n)
 G.remove_node("".join("I" for i in range(n)))
 print(nx.algorithms.approximation.large_clique_size(G))
@@ -162,3 +162,64 @@ def find_pauli(lis):
 # edge_width = [edgedata["width"] for _, _, edgedata in G.edges(data=True)]
 # nx.draw_networkx_edges(G, pos, width=edge_width, edge_color=edge_colors)
 # plt.show()
+
+#%%sub cliques
+#%% cliques need to fix
+
+#multiply the rest
+        #gen_paulis
+        #multiply
+        #find pauli return to 'x''y'z' etc
+
+#%%
+'''
+7->5
+get all combos of size 3
+generate 5 cliques
+'''
+cliques=[]
+num_cliq = 0
+check=0
+
+n = 3
+G = gen_graph(n)
+G.remove_node("".join("I" for i in range(n)))
+print(nx.algorithms.approximation.large_clique_size(G))
+print(clique_counter(G,7))
+
+max_xs=nx.algorithms.approximation.large_clique_size(G)
+for i in nx.find_cliques(G):
+    if len(i) == 7:#max_xs:
+        cliques.append(set(i))
+        
+basis_5=set()
+count=0
+for i in [cliques[0]]:
+#pick 4
+    for j in itertools.combinations(i,4):
+        count+=1
+        chk = copy.copy(i)
+        for k in j: chk.remove(k)
+        se=set(j)
+        se.add(find_pauli(multiply_lis(gen_paulis(chk))))
+        
+        # if not any([se.issubset(b) for b in basis_sets]):
+        basis_5.add(frozenset(se))
+
+#%%
+'''
+5->3
+'''
+basis_3=set()
+count=0
+for i in basis_5:
+#pick 4
+    for j in itertools.combinations(set(i),2):
+        count+=1
+        chk = copy.copy(set(i))
+        for k in j: chk.remove(k)
+        se=set(j)
+        se.add(find_pauli(multiply_lis(gen_paulis(chk))))
+        
+        # if not any([se.issubset(b) for b in basis_sets]):
+        basis_3.add(frozenset(se))
