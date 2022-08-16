@@ -1,4 +1,3 @@
-
 """
 Functions used to generate and count all possible cliques of anticommuting pauli strings
 
@@ -65,7 +64,8 @@ def gen_graph(n=2):
             G.add_edge(i[0], i[1], **{"color": "tab:blue", "width": 0.2})
     return G
 
-def clique_counter(G,clique_size: int):
+
+def clique_counter(G, clique_size: int):
     """
     
 
@@ -82,20 +82,22 @@ def clique_counter(G,clique_size: int):
 
     """
     size = 0
-    check=0
+    check = 0
 
-    if nx.algorithms.approximation.large_clique_size(G)<clique_size:
+    if nx.algorithms.approximation.large_clique_size(G) < clique_size:
         return 0
     for i in nx.find_cliques(G):
         if len(i) == clique_size:
-            size = size +1
+            size = size + 1
     return size
+
+
 #%%
 n = 3
 G = gen_graph(n)
 G.remove_node("".join("I" for i in range(n)))
 print(nx.algorithms.approximation.large_clique_size(G))
-print(clique_counter(G,3))
+print(clique_counter(G, 3))
 
 #%%
 # pos = nx.circular_layout(G)
@@ -121,28 +123,32 @@ def gen_paulis(lis):
         [[pauli(x),pauli(y) pauli(z)],].
 
     """
-    pl=[[pauli[j] for j in i] for i in list(lis)]
+    pl = [[pauli[j] for j in i] for i in list(lis)]
     pauli_lis = [[row[i] for row in pl] for i in range(len(list(lis)[0]))]
     return pauli_lis
+
 
 def multiply_lis(lis):
     asd = [functools.reduce(np.dot, i) for i in lis]
     return asd
 
+
 def find_pauli(lis):
-    
-    st=''
+
+    st = ""
     for i in lis:
-        if i[0][0]!=0:
-            if i[0][0]+i[1][1]==0:
-                st=st+'Z'
+        if i[0][0] != 0:
+            if i[0][0] + i[1][1] == 0:
+                st = st + "Z"
             else:
-                st=st+'I'
-        elif i[0][1]+i[1][0]==0:
-            st=st+'Y'
+                st = st + "I"
+        elif i[0][1] + i[1][0] == 0:
+            st = st + "Y"
         else:
-            st=st+'X'
+            st = st + "X"
     return st
+
+
 # #%%
 # clique = next(nx.find_cliques(G))
 
@@ -166,60 +172,77 @@ def find_pauli(lis):
 #%%sub cliques
 #%% cliques need to fix
 
-#multiply the rest
-        #gen_paulis
-        #multiply
-        #find pauli return to 'x''y'z' etc
+# multiply the rest
+# gen_paulis
+# multiply
+# find pauli return to 'x''y'z' etc
 
 #%%
-'''
+"""
 7->5
 get all combos of size 3
 generate 5 cliques
-'''
-cliques=[]
+"""
+cliques = []
 num_cliq = 0
-check=0
+check = 0
 
 n = 3
 G = gen_graph(n)
 G.remove_node("".join("I" for i in range(n)))
 print(nx.algorithms.approximation.large_clique_size(G))
-print(clique_counter(G,7))
+print(clique_counter(G, 7))
 
-max_xs=nx.algorithms.approximation.large_clique_size(G)
+max_xs = nx.algorithms.approximation.large_clique_size(G)
 for i in nx.find_cliques(G):
-    if len(i) == 7:#max_xs:
+    if len(i) == 7:  # max_xs:
         cliques.append(set(i))
-        
-basis_5=set()
-count=0
-for i in [cliques[0]]:
-#pick 4
-    for j in itertools.combinations(i,4):
-        count+=1
+
+basis_5 = set()
+count = 0
+for i in cliques:
+    # pick 4
+    for j in itertools.combinations(i, 4):
+        count += 1
         chk = copy.copy(i)
-        for k in j: chk.remove(k)
-        se=set(j)
+        for k in j:
+            chk.remove(k)
+        se = set(j)
         se.add(find_pauli(multiply_lis(gen_paulis(chk))))
-        
+
         # if not any([se.issubset(b) for b in basis_sets]):
         basis_5.add(frozenset(se))
 
 #%%
-'''
+"""
 5->3
-'''
-basis_3=set()
-count=0
+"""
+basis_3 = set()
+count = 0
 for i in basis_5:
-#pick 4
-    for j in itertools.combinations(set(i),2):
-        count+=1
+    # pick 4
+    for j in itertools.combinations(set(i), 2):
+        count += 1
         chk = copy.copy(set(i))
-        for k in j: chk.remove(k)
-        se=set(j)
+        for k in j:
+            chk.remove(k)
+        se = set(j)
         se.add(find_pauli(multiply_lis(gen_paulis(chk))))
-        
+
         # if not any([se.issubset(b) for b in basis_sets]):
         basis_3.add(frozenset(se))
+
+#%% dummy position
+count = 0
+sets = []
+for i in basis_5:
+    Icount = 0
+    if "I" not in list(i)[0]:
+        pass
+
+    else:
+        pos = list(i)[0].index("I")
+        arr = [1 if x[pos] == "I" else 0 for x in list(i)]
+        if all(arr):
+            sets.append(i)
+            count += 1
