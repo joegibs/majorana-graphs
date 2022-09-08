@@ -10,8 +10,7 @@ Welcome to Majorana Graphs's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   count_and_plot
-
+   graph_functions.rst
 
 
 Indices and tables

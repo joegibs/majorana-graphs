@@ -5,3 +5,4 @@ Code
    :maxdepth: 4
 
    count_and_plot
+   graph_functions

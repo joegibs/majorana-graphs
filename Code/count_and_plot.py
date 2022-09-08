@@ -93,7 +93,7 @@ def clique_counter(G, clique_size: int):
 
 
 #%%
-n = 3
+n = 2
 G = gen_graph(n)
 G.remove_node("".join("I" for i in range(n)))
 print(nx.algorithms.approximation.large_clique_size(G))
@@ -129,8 +129,8 @@ def gen_paulis(lis):
 
 
 def multiply_lis(lis):
-    asd = [functools.reduce(np.dot, i) for i in lis]
-    return asd
+    list_prod = [functools.reduce(np.dot, i) for i in lis]
+    return list_prod
 
 
 def find_pauli(lis):
@@ -148,7 +148,25 @@ def find_pauli(lis):
             st = st + "X"
     return st
 
-
+def order_of_repeats(cliques):
+    total = {}
+    for element in cliques:
+        each = {}
+        for st in element:
+            count = {}
+            for s in st:
+              if s in count:
+                count[s] += 1
+                each[s] += 1
+              else:
+                count[s] = 1
+                each[s] = 1
+        order = max(list(each.values()))
+        if order in total:
+            total[order]+=1
+        else:
+            total[order]=1
+    return total,each,count
 # #%%
 # clique = next(nx.find_cliques(G))
 
@@ -183,19 +201,25 @@ def find_pauli(lis):
 get all combos of size 3
 generate 5 cliques
 """
-cliques = []
+
 num_cliq = 0
 check = 0
 
 n = 3
 G = gen_graph(n)
 G.remove_node("".join("I" for i in range(n)))
-print(nx.algorithms.approximation.large_clique_size(G))
-print(clique_counter(G, 7))
-
-max_xs = nx.algorithms.approximation.large_clique_size(G)
+# print(nx.algorithms.approximation.large_clique_size(G))
+# print(clique_counter(G, 3))
+#%%
+cliques = []
 for i in nx.find_cliques(G):
     if len(i) == 7:  # max_xs:
+        cliques.append(set(i))
+#%%
+cliques = []
+max_xs = nx.algorithms.approximation.large_clique_size(G)
+for i in nx.find_cliques(G):
+    if len(i) == 3:  # max_xs:
         cliques.append(set(i))
 
 basis_5 = set()
@@ -246,3 +270,30 @@ for i in basis_5:
         if all(arr):
             sets.append(i)
             count += 1
+#%% 
+def add_triang(cliques):
+    new_triang=set()
+    n=len(list(cliques)[0])
+    for tria in cliques:
+        trian= list(tria)
+        for i in range(n+1):
+            st=frozenset([x[:i]+'I'+x[i:] for x in trian])
+            new_triang.add(st)
+            for p in {'X','Y','Z'}:
+                one = trian[0][:i]+'I'+trian[0][i:]
+                two = trian[1][:i]+p+trian[1][i:]
+                three=trian[2][:i]+p+trian[2][i:]
+                st=frozenset([one,two,three])
+                new_triang.add(st)
+                one = trian[0][:i]+p+trian[0][i:]
+                two = trian[1][:i]+'I'+trian[1][i:]
+                three=trian[2][:i]+p+trian[2][i:]
+                st=frozenset([one,two,three])
+                new_triang.add(st)
+                one = trian[0][:i]+p+trian[0][i:]
+                two = trian[1][:i]+p+trian[1][i:]
+                three=trian[2][:i]+'I'+trian[2][i:]
+                st=frozenset([one,two,three])
+                new_triang.add(st)
+    return new_triang
+        

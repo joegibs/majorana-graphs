@@ -1,0 +1,320 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="python" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="python" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>graph_functions module &mdash; Majorana Graphs 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Majorana Graphs
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="count_and_plot.html">count_and_plot module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Majorana Graphs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>graph_functions module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/graph_functions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="module-graph_functions">
+<span id="graph-functions-module"></span><h1>graph_functions module<a class="headerlink" href="#module-graph_functions" title="Permalink to this heading">¶</a></h1>
+<p>Created on Sun Aug 21 12:50:51 2022</p>
+<p>&#64;author: jogib</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="graph_functions.add_triang">
+<span class="sig-prename descclassname"><span class="pre">graph_functions.</span></span><span class="sig-name descname"><span class="pre">add_triang</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cliques</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graph_functions.html#add_triang"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graph_functions.add_triang" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the triangles for the group of triangles for one stringlength greater
+than the original</p>
+<p class="rubric">Example</p>
+<p>n = 3
+G = gen_graph(n)
+G.remove_node(&quot;&quot;.join(&quot;I&quot; for i in range(n)))
+cliques = []
+for i in nx.find_cliques(G):</p>
+<blockquote>
+<div><dl class="simple">
+<dt>if len(i) == 3:</dt><dd><p>cliques.append(set(i))</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>add_triang(cliques)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cliques</strong> (<em>list of anticomuting pairs</em>) -- </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>new_triang</strong> -- returns thee triangles for one string length greater.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graph_functions.anticommute_check">
+<span class="sig-prename descclassname"><span class="pre">graph_functions.</span></span><span class="sig-name descname"><span class="pre">anticommute_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graph_functions.html#anticommute_check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graph_functions.anticommute_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if two strings anti commute</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>str</em>) -- </p></li>
+<li><p><strong>B</strong> (<em>str</em>) -- </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graph_functions.find_pauli">
+<span class="sig-prename descclassname"><span class="pre">graph_functions.</span></span><span class="sig-name descname"><span class="pre">find_pauli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graph_functions.html#find_pauli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graph_functions.find_pauli" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes a list of numerical paulies and returns a list of pauli labels
+:param lis: Must be a list of 2x2 arrays each corresponding to a pauli matrix
+:type lis: np.array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>st</strong> -- list of pauli strings</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graph_functions.gen_graph">
+<span class="sig-prename descclassname"><span class="pre">graph_functions.</span></span><span class="sig-name descname"><span class="pre">gen_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/graph_functions.html#gen_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graph_functions.gen_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Example</p>
+<p>G = gen_graph(n)
+G.remove_node(&quot;&quot;.join(&quot;I&quot; for i in range(n)))</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em><em>, </em><em>optional</em>) -- String length. The default is 2.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>G</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>networkx graph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graph_functions.gen_paulis">
+<span class="sig-prename descclassname"><span class="pre">graph_functions.</span></span><span class="sig-name descname"><span class="pre">gen_paulis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graph_functions.html#gen_paulis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graph_functions.gen_paulis" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>lis</strong> (<em>list</em>) -- list of the form ['XYZ','XXI'...] so that each the first char in
+each element of the list is pauli corresponding to the char.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>paul_lis</strong> -- [[pauli(x),pauli(y) pauli(z)],].</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>lis</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graph_functions.multiply_lis">
+<span class="sig-prename descclassname"><span class="pre">graph_functions.</span></span><span class="sig-name descname"><span class="pre">multiply_lis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graph_functions.html#multiply_lis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graph_functions.multiply_lis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="graph_functions.order_of_repeats">
+<span class="sig-prename descclassname"><span class="pre">graph_functions.</span></span><span class="sig-name descname"><span class="pre">order_of_repeats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cliques</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/graph_functions.html#order_of_repeats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#graph_functions.order_of_repeats" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO: not complete need to change how it does the counting</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cliques</strong> (<em>TYPE</em>) -- DESCRIPTION.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>total</strong> -- DESCRIPTION.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, Joseph Gibson, Brent Harrison
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
