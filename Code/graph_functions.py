@@ -20,6 +20,22 @@ pauli = {
     "Y": np.array(np.mat("0,-1j;1j,0")),
 }
 #%%
+def theoretical_size(m,n):
+    """
+    Parameters
+    ----------
+    m : int
+        cardinality, (size of clique)
+    n : int
+        length of pauli string.
+    """
+    
+    if not m%2:
+        return 0
+    else:
+        s = lambda n,k: (4**n)/(2**k) - (1-k%2) 
+        return int(1/np.math.factorial(m)*np.prod([s(n,k) for k in range(0,m-1)]))
+#%%
 def anticommute_check(A: str, B: str):
     """
     Checks if two strings anti commute
@@ -158,6 +174,8 @@ def order_of_repeats(cliques):
 
 def add_triang(cliques):
     """
+    TODO missing the odd number correction
+    
     Find the triangles for the group of triangles for one stringlength greater
     than the original
     
@@ -182,6 +200,10 @@ def add_triang(cliques):
     new_triang : TYPE
         returns thee triangles for one string length greater.
 
+
+
+    todo: need a better way to generate things you can add
+    the weird odd additions
     """
     new_triang=set()
     n=len(list(cliques)[0])
@@ -209,12 +231,36 @@ def add_triang(cliques):
     return new_triang
 #%%
 n = 3
+m=7
 G = gen_graph(n)
 G.remove_node("".join("I" for i in range(n)))
-# print(nx.algorithms.approximation.large_clique_size(G))
+print(nx.algorithms.approximation.large_clique_size(G))
+# print(clique_counter(G, 3))
+cliques = []
+for i in nx.find_cliques(G):
+    if len(i) == m:  # max_xs:
+        cliques.append(set(i))
+print(theoretical_size(m,n),len(cliques))
+#%%
+n = 2
+G = gen_graph(n)
+G.remove_node("".join("I" for i in range(n)))
+print(nx.algorithms.approximation.large_clique_size(G))
 # print(clique_counter(G, 3))
 #%%
 cliques = []
 for i in nx.find_cliques(G):
-    if len(i) == 7:  # max_xs:
+    if len(i) == 3:  # max_xs:
         cliques.append(set(i))
+#%%
+n = 4
+m= 3
+G = gen_graph(n)
+G.remove_node("".join("I" for i in range(n)))
+cliques = []
+for i in nx.find_cliques(G):
+    if len(i) == m:
+        cliques.append(set(i))
+print(len(cliques),theoretical_size(m,n))
+trigs = add_triang(cliques)
+print(len(trigs),theoretical_size(m,n+1))

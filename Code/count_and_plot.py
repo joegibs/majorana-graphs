@@ -205,7 +205,7 @@ generate 5 cliques
 num_cliq = 0
 check = 0
 
-n = 3
+n = 2
 G = gen_graph(n)
 G.remove_node("".join("I" for i in range(n)))
 # print(nx.algorithms.approximation.large_clique_size(G))
@@ -213,7 +213,7 @@ G.remove_node("".join("I" for i in range(n)))
 #%%
 cliques = []
 for i in nx.find_cliques(G):
-    if len(i) == 7:  # max_xs:
+    if len(i) == 5:  # max_xs:
         cliques.append(set(i))
 #%%
 cliques = []
